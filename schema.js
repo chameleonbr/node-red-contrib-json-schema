@@ -4,6 +4,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, n);
         this.func = n.func;
         this.name = n.name;
+        this.pass = n.pass || false;
         var node = this;
 
         var Ajv = require('ajv');
@@ -11,16 +12,20 @@ module.exports = function(RED) {
             allErrors: true,
             messages: false
         });
-        
+
         console.log(node.func);
         var validate = ajv.compile(JSON.parse(node.func));
-        
+
         node.on('input', function(msg) {
             if (msg.payload !== undefined) {
                 var valid = validate(msg.payload);
                 if (!valid) {
                     msg['error'] = validate.errors;
-                    node.error('Invalid JSON', msg);
+                    if (node.pass) {
+                        node.send(msg);
+                    } else {
+                        node.error('Invalid JSON', msg);
+                    }
                 }
                 else {
                     node.send(msg);
