@@ -13,6 +13,9 @@
             },
             func: {
                 value: ""
+            },
+            pass: {
+                value: false
             }
         },
         label: function() {
@@ -67,12 +70,16 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row" style="margin-bottom: 0px;">
-        <label for="node-input-func"><i class="fa fa-wrench"></i> JSON Schema</label>
+        <label for="node-input-func" style="width: 180px;"><i class="fa fa-wrench"></i> JSON Schema</label>
         <input type="hidden" id="node-input-func" autofocus="autofocus">
         <input type="hidden" id="node-input-noerr">
     </div>
     <div class="form-row node-text-editor-row">
         <div style="height: 250px;" class="node-text-editor" id="node-input-func-editor"></div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-pass" style="width: 180px;"><i class="fa fa-arrow-right"></i> Pass invalid messages</label>
+        <input type="checkbox" id="node-input-pass" placeholder="" style="display: inline-block; width: auto; vertical-align: top;">
     </div>
 </script>
 
