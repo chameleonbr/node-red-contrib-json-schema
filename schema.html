@@ -1,12 +1,12 @@
 <script type="text/javascript">
     /*global RED*/
-    RED.nodes.registerType('json-schema', {
+    RED.nodes.registerType('json-schema-validator', {
         category: 'function',
         inputs: 1,
         outputs: 1,
         color: "#debd5c",
         icon: "function.png",
-        paletteLabel: "json schema",
+        paletteLabel: "json schema validator",
         defaults: {
             name: {
                 value: ""
@@ -16,7 +16,7 @@
             }
         },
         label: function() {
-            return this.name || "JSON Schema";
+            return this.name || "JSON Schema validator";
         },
         oneditprepare: function() {
             var that = this;
@@ -61,7 +61,7 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="json-schema">
+<script type="text/x-red" data-template-name="json-schema-validator">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -76,7 +76,7 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="json-schema">
+<script type="text/x-red" data-help-name="json-schema-validator">
     <p>JSON Schema validator</p>
-    <p>Put your JSON Schema on editor and node will validate msg.payload. Error is returned on msg.error.</p>
+    <p>Put your JSON Schema on editor or in msg.schema and node will validate msg.payload. Error is returned on msg.error.</p>
 </script>
