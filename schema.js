@@ -1,33 +1,36 @@
+const Ajv = require('ajv');
+
 module.exports = function(RED) {
     "use strict";
-    function JsonSchemaValidator(n) {
-        RED.nodes.createNode(this, n);
-        this.func = n.func;
-        this.name = n.name;
-        var node = this;
+    function JsonSchemaValidator(node) {
+        RED.nodes.createNode(this, node);
 
-        var Ajv = require('ajv');
-        var ajv = Ajv({
-            allErrors: true,
-            messages: false
-        });
-        
-        console.log(node.func);
-        var validate = ajv.compile(JSON.parse(node.func));
-        
-        node.on('input', function(msg) {
-            if (msg.payload !== undefined) {
-                var valid = validate(msg.payload);
-                if (!valid) {
-                    msg['error'] = validate.errors;
-                    node.error('Invalid JSON', msg);
+        this.name = node.name;
+
+        try {
+            this.func = JSON.parse(node.func);
+        } catch(e) {
+            this.error(e.message);
+        }
+
+        if (this.func) {
+            const validate = Ajv({
+                allErrors: true,
+            }).compile(node.func);
+
+            this.on('input', msg => {
+                const valid = validate(msg.payload);
+
+                if (valid) {
+                    this.send(msg);
                 }
                 else {
-                    node.send(msg);
+                    msg.error = validate.errors;
+                    this.send(null, msg);
                 }
-            }
-        });
-
+            });
+        }
     }
+
     RED.nodes.registerType("json-schema", JsonSchemaValidator);
 };
