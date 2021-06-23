@@ -12,7 +12,6 @@ module.exports = function(RED) {
             messages: false
         });
         
-        console.log(node.func);
         var validate = ajv.compile(JSON.parse(node.func));
         
         node.on('input', function(msg) {
